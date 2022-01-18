@@ -17,7 +17,6 @@ class ProductManagerTest {
     Product smartphone2 = new Smartphone(04, "Iphone 8", 55000, "Apple");
     Product book3 = new Book(05, "Pod kupolom", 460, "Stiven King");
 
-
     @Test
     public void shouldSearchByNameNoEmpty() {
         productManager.add(book1);
