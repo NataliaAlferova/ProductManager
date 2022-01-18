@@ -26,7 +26,6 @@ public class ProductManager {
     }
 
     public void add(Product item) {
-        Repository repository = new Repository();
         repository.save(item);
     }
 

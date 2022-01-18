@@ -10,17 +10,19 @@ import ru.netology.manager.ProductManager;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductManagerTest {
-
+    ProductManager productManager = new ProductManager(new Repository(new Product[]{}));
     Product book1 = new Book(01, "Ono", 450, "Stiven King");
     Product book2 = new Book(02, "3 Tovarishcha", 380, "Remark");
     Product smartphone1 = new Smartphone(03, "Samsung 310", 6800, "Samsung");
     Product smartphone2 = new Smartphone(04, "Iphone 8", 55000, "Apple");
+    Product book3 = new Book(05, "Pod kupolom", 460, "Stiven King");
+
 
     @Test
     public void shouldSearchByNameNoEmpty() {
-        ProductManager productManager = new ProductManager();
-        Repository repository = new Repository(new Product[]{book1, book2, smartphone1});
-        productManager.setRepository(repository);
+        productManager.add(book1);
+        productManager.add(book2);
+        productManager.add(smartphone1);
 
         Product[] expected = {book1};
         Product[] actual = productManager.searchByText("Ono");
@@ -30,10 +32,6 @@ class ProductManagerTest {
 
     @Test
     public void shouldSearchByNameEmpty() {
-        ProductManager productManager = new ProductManager();
-        Repository repository = new Repository(new Product[0]);
-        productManager.setRepository(repository);
-
         Product[] expected = {};
         Product[] actual = productManager.searchByText("Ono");
 
@@ -42,9 +40,10 @@ class ProductManagerTest {
 
     @Test
     public void shouldSearchByNameNoResalt() {
-        ProductManager productManager = new ProductManager();
-        Repository repository = new Repository(new Product[]{book1, book2, smartphone1});
-        productManager.setRepository(repository);
+
+        productManager.add(book1);
+        productManager.add(book2);
+        productManager.add(smartphone1);
 
         Product[] expected = {};
         Product[] actual = productManager.searchByText("Skazka");
@@ -54,9 +53,9 @@ class ProductManagerTest {
 
     @Test
     public void shouldSearchByAuthor() {
-        ProductManager productManager = new ProductManager();
-        Repository repository = new Repository(new Product[]{book1, book2, smartphone1});
-        productManager.setRepository(repository);
+        productManager.add(book1);
+        productManager.add(book2);
+        productManager.add(smartphone1);
 
         Product[] expected = {book1};
         Product[] actual = productManager.searchByText("King");
@@ -66,9 +65,9 @@ class ProductManagerTest {
 
     @Test
     public void shouldSearchSmartphoneByName() {
-        ProductManager productManager = new ProductManager();
-        Repository repository = new Repository(new Product[]{book1, book2, smartphone2});
-        productManager.setRepository(repository);
+        productManager.add(book1);
+        productManager.add(book2);
+        productManager.add(smartphone2);
 
         Product[] expected = {smartphone2};
         Product[] actual = productManager.searchByText("Iphone");
@@ -78,13 +77,27 @@ class ProductManagerTest {
 
     @Test
     public void shouldSearchSmartphoneByProducer() {
-        ProductManager productManager = new ProductManager();
-        Repository repository = new Repository(new Product[]{book1, book2, smartphone2});
-        productManager.setRepository(repository);
+        productManager.add(book1);
+        productManager.add(book2);
+        productManager.add(smartphone2);
 
         Product[] expected = {smartphone2};
         Product[] actual = productManager.searchByText("Apple");
 
         assertArrayEquals(expected, actual);
     }
+
+    @Test
+    public void shouldSearchByAuthorAnyResult() {
+        productManager.add(book1);
+        productManager.add(book2);
+        productManager.add(smartphone1);
+        productManager.add(book3);
+
+        Product[] expected = {book1, book3};
+        Product[] actual = productManager.searchByText("King");
+
+        assertArrayEquals(expected, actual);
+    }
+
 }
